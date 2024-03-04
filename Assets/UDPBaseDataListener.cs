@@ -242,9 +242,6 @@ public class UDPBaseDataListener : MonoBehaviour
         float deviationFromCenter = closestTrackPoint.x - valArray[3]; // Subtract x-coordinate of closest point from ego vehicle's x-coordinate
 
         // Log the deviation from the lane center
-        Debug.Log("Deviation from lane center: " + deviationFromCenter);
-        //Debug.Log("xtrack: " + closestTrackPoint.x);        
-        
         valArray[8] = deviationFromCenter;   // LaneDeviation
         valArray[23] = closestTrackPoint.x;   // LaneDeviation
         valArray[24] = closestTrackPoint.y;   // LaneDeviation
