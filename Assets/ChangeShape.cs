@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class ArrowControl : MonoBehaviour
+public class ChangeShape : MonoBehaviour
 {
 
     public UDPBaseDataListener udpSource;
@@ -43,7 +43,7 @@ public class ArrowControl : MonoBehaviour
 
         }
 
-        rectTransform.sizeDelta = new Vector3(2000, sensorVal * 7);
+        rectTransform.sizeDelta = new Vector3(2000, sensorVal * 35);
 
     }
 
