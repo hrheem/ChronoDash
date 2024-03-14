@@ -49,8 +49,8 @@ public class UDPButton : MonoBehaviour
 
     private void SendUDP(int value)
     {
-        string ipAddress = "192.168.1.100"; // Replace with your destination IP address
-        int port = 12345; // Replace with your destination port number
+        string ipAddress = "128.104.190.248"; // Replace with your destination IP address
+        int port = 1210; // Replace with your destination port number
         try
         {
             UdpClient udpClient = new UdpClient();

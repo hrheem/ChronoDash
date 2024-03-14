@@ -186,7 +186,7 @@ public class UDPBaseDataListener : MonoBehaviour
             // Convert the byte array to a float
             floats[i] = System.BitConverter.ToSingle(floatBytes, 0);
         }
-	Debug.Log(floats.Length);
+	//Debug.Log(floats.Length);
         //!!CHANGE WITH THE NUMBER OF LEAD VEHICLES
         valArray[0] = floats[0];   // sim time
         valArray[1] = floats[1];   // vehicle speed
