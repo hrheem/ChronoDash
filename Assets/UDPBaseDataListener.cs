@@ -203,7 +203,8 @@ public class UDPBaseDataListener : MonoBehaviour
         valArray[12] = floats[11];   // lead1 y velo
         valArray[13] = floats[12];   // lead1 throttle
         valArray[14] = floats[13];   // lead1 brake
-        valArray[15] = floats[14];   // lead1 steering        
+        valArray[15] = floats[14];   // lead1 steering   
+             
         valArray[16] = floats[15];   // lead2 x
         valArray[17] = floats[16];   // lead2 y
         valArray[18] = floats[17];   // lead2 x velo
@@ -211,6 +212,7 @@ public class UDPBaseDataListener : MonoBehaviour
         valArray[20] = floats[19];   // lead2 throttle
         valArray[21] = floats[20];   // lead2 brake
         valArray[22] = floats[21];   // lead2 steering
+        
 
         // Initialize variables to store the closest point
         Vector2 closestTrackPoint = Vector2.zero;
