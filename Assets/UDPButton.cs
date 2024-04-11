@@ -8,7 +8,7 @@ public class UDPButton : MonoBehaviour
 {
     public TextMeshProUGUI buttonText;
     private bool automationEnabled = true;
-    private int udpValue = 0; // Initial value to be sent via UDP
+    private int udpValue = 1; // Initial value to be sent via UDP
 
     void Start()
     {
@@ -38,25 +38,30 @@ public class UDPButton : MonoBehaviour
         if (automationEnabled)
         {
             buttonText.text = "Automation On";
-            udpValue = 0; // Set UDP value to 0. When a button press leads to its label showing "Automation On", this means the driver pressed the button to turned it off so 0 should be sent  
+            udpValue = 1; // Set UDP value to 0. When a button press leads to its label showing "Automation On", this means the driver pressed the button to turned it off so 0 should be sent  
         }
         else
         {
             buttonText.text = "Automation Off";
-            udpValue = 1; // Set UDP value to 1. Same here. Seeing the "Off" message means participant pressed the button to turn it on. 
+            udpValue = 0; // Set UDP value to 1. Same here. Seeing the "Off" message means participant pressed the button to turn it on. 
         }
     }
 
+    
     private void SendUDP(int value)
     {
         string ipAddress = "128.104.190.248"; // Replace with your destination IP address
-        int port = 1210; // Replace with your destination port number
+        int port = 1211; // Replace with your destination port number
         try
         {
             UdpClient udpClient = new UdpClient();
             udpClient.Connect(ipAddress, port);
 
-            byte[] data = System.BitConverter.GetBytes(value);
+            // Convert integer value to byte array in little-endian format
+            byte[] data = BitConverter.GetBytes(value);
+            if (!BitConverter.IsLittleEndian) // Reverse the byte array if the system is big-endian
+                Array.Reverse(data);
+
             udpClient.Send(data, data.Length);
 
             udpClient.Close();
