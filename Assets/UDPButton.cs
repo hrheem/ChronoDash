@@ -38,12 +38,12 @@ public class UDPButton : MonoBehaviour
     {
         if (automationEnabled)
         {
-            buttonText.text = "Automation On";
+            buttonText.text = "Deactivate";
             udpValue[0] = 1.0f;
         }
         else
         {
-            buttonText.text = "Automation Off";
+            buttonText.text = "Activate";
             udpValue[0] = 0.0f;
         }
     }
