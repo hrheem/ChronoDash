@@ -3,72 +3,83 @@ using UnityEngine.UI;
 using TMPro;
 using System.Net.Sockets;
 using System;
+using System.Collections;
 
+ 
 public class UDPButton : MonoBehaviour
 {
     public TextMeshProUGUI buttonText;
-    private bool automationEnabled = true;
-    private int udpValue = 1; // Initial value to be sent via UDP
-
+    private bool automationEnabled = false;  // State to control automation
+    private float[] udpValue = new float[1]{0.0f};  // Initial float value to be sent via UDP
+    private UdpClient udpClient;  // UDP client for sending data
+    private const int sendFrequency = 10000;  // Send data at 200 Hz
+ 
     void Start()
     {
-        // Set initial button label
+        // Initialize UDP client
+        udpClient = new UdpClient();
+        udpClient.Connect("128.104.190.248", 1210);  // Replace with your destination IP and port
+ 
+        // Set initial button label and start the coroutine
         UpdateButtonLabel();
+        StartCoroutine(SendDataContinuously());
     }
-
+ 
     public void OnButtonPressed()
     {
-        Debug.Log("Button Clicked");
         // Toggle automation state
         automationEnabled = !automationEnabled;
-
-        // Send UDP packet
-        SendUDP(udpValue);
-
+ 
         // Update button label
         UpdateButtonLabel();
-
-        // Debug which integer is being sent out
-        Debug.Log("UDP value sent: " + udpValue);
     }
-
+ 
     private void UpdateButtonLabel()
     {
-        // Update button label based on automation state
         if (automationEnabled)
         {
             buttonText.text = "Automation On";
-            udpValue = 1; // Set UDP value to 0. When a button press leads to its label showing "Automation On", this means the driver pressed the button to turned it off so 0 should be sent  
+            udpValue[0] = 1.0f;
         }
         else
         {
             buttonText.text = "Automation Off";
-            udpValue = 0; // Set UDP value to 1. Same here. Seeing the "Off" message means participant pressed the button to turn it on. 
+            udpValue[0] = 0.0f;
         }
     }
-
-    
-    private void SendUDP(int value)
+ 
+    private IEnumerator SendDataContinuously()
     {
-        string ipAddress = "128.104.190.248"; // Replace with your destination IP address
-        int port = 1211; // Replace with your destination port number
+        while (true)  // Always true to keep the coroutine running
+        {
+            SendUDP(udpValue);
+            yield return new WaitForSeconds(1f / sendFrequency);
+        }
+    }
+ 
+    private void SendUDP(float[] values)
+    {
         try
         {
-            UdpClient udpClient = new UdpClient();
-            udpClient.Connect(ipAddress, port);
-
-            // Convert integer value to byte array in little-endian format
-            byte[] data = BitConverter.GetBytes(value);
-            if (!BitConverter.IsLittleEndian) // Reverse the byte array if the system is big-endian
-                Array.Reverse(data);
-
-            udpClient.Send(data, data.Length);
-
-            udpClient.Close();
+            foreach (float value in values)
+            {
+                byte[] data = BitConverter.GetBytes(value);
+                if (!BitConverter.IsLittleEndian)
+                {
+                    Array.Reverse(data);
+                }
+                udpClient.Send(data, data.Length);
+            }
         }
         catch (Exception e)
         {
             Debug.LogError("Error sending UDP packet: " + e.Message);
         }
+    }
+ 
+    void OnDestroy()
+    {
+        // Clean up the UDP client when the script is destroyed
+        udpClient?.Close();
     }
 }
