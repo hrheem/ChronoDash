@@ -15,6 +15,7 @@ public class UDPBaseDataListener : MonoBehaviour
 
     public int listenAtPort = 1209;//1209 csl, tony
     string logFilePath = "";
+    string logFilePath2 = "";
     public bool listenForData = true;
     private List<Vector2[]> trackDataList = new List<Vector2[]>();     // Array to store loaded track data
 
@@ -32,9 +33,12 @@ public class UDPBaseDataListener : MonoBehaviour
     void Start()
     {
         logFilePath = Application.persistentDataPath + "/" + "FoW_FinalData" + System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff") + ".txt";
+        
+        logFilePath2 = Application.persistentDataPath + "/" + "FoW_FinalData_path.txt";
+        
         //string timestamp = System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
         //!!CHANGE WITH THE NUMBER OF LEAD VEHICLES
-        string logEntry = "date" + " time" + " simTime" + " speed" + " rpm" + " egoX" + " egoY" + " throttle" + " brake" + " steer" + " laneDev" +" lead1X" + " lead1Y" + " lead1Xvelo" + " lead1Yvelo"+ " lead1Throttle" + " lead1Brake" + " lead1Steer" + " lead2X" + " lead2Y" + " lead2Xvelo" + " lead2Yvelo"+ " lead2Throttle" + " lead2Brake" + " lead2Steer"  + " LaneCenterX"  + " LaneCenterY";
+        string logEntry = "date" + " time" + " simTime" + " speed" + " rpm" + " egoX" + " egoY" + " throttle" + " brake" + " steer" + " laneDev" + " LaneCenterX"  + " LaneCenterY"+" lead1X" + " lead1Y" + " lead1Xvelo" + " lead1Yvelo"+ " lead1Throttle" + " lead1Brake" + " lead1Steer" + " lead2X" + " lead2Y" + " lead2Xvelo" + " lead2Yvelo"+ " lead2Throttle" + " lead2Brake" + " lead2Steer";
         File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
         LoadTrackData();
         initializeSettings();
@@ -49,7 +53,11 @@ public class UDPBaseDataListener : MonoBehaviour
 
     public void LoadTrackData()
     {
-        string directoryPath = Application.dataPath + "/Tracks/";
+        string directoryPath = Application.streamingAssetsPath + "/Tracks/";
+        //string directoryPath = Application.dataPath + "/Resources/Tracks/";        
+        File.AppendAllText(logFilePath2, directoryPath + Environment.NewLine);
+        
+        //string directoryPath = Application.dataPath;        
         int trackNumber = 1;
 
         // Debug log to indicate the start of track data loading
@@ -197,21 +205,21 @@ public class UDPBaseDataListener : MonoBehaviour
         valArray[6] = floats[6];   // brake
         valArray[7] = floats[7];   // steering
               
-        valArray[9] = floats[8];   // lead1 x
-        valArray[10] = floats[9];   // lead1 y
-        valArray[11] = floats[10];   // lead1 x velo
-        valArray[12] = floats[11];   // lead1 y velo
-        valArray[13] = floats[12];   // lead1 throttle
-        valArray[14] = floats[13];   // lead1 brake
-        valArray[15] = floats[14];   // lead1 steering   
+        //valArray[11] = floats[8];   // lead1 x
+        //valArray[12] = floats[9];   // lead1 y
+        //valArray[13] = floats[10];   // lead1 x velo
+        //valArray[14] = floats[11];   // lead1 y velo
+        //valArray[15] = floats[12];   // lead1 throttle
+        //valArray[16] = floats[13];   // lead1 brake
+        //valArray[17] = floats[14];   // lead1 steering   
              
-        valArray[16] = floats[15];   // lead2 x
-        valArray[17] = floats[16];   // lead2 y
-        valArray[18] = floats[17];   // lead2 x velo
-        valArray[19] = floats[18];   // lead2 y velo
-        valArray[20] = floats[19];   // lead2 throttle
-        valArray[21] = floats[20];   // lead2 brake
-        valArray[22] = floats[21];   // lead2 steering
+        //valArray[18] = floats[15];   // lead2 x
+        //valArray[19] = floats[16];   // lead2 y
+        //valArray[20] = floats[17];   // lead2 x velo
+        //valArray[21] = floats[18];   // lead2 y velo
+        //valArray[22] = floats[19];   // lead2 throttle
+        //valArray[23] = floats[20];   // lead2 brake
+        //valArray[24] = floats[21];   // lead2 steering
         
 
         // Initialize variables to store the closest point
@@ -245,12 +253,12 @@ public class UDPBaseDataListener : MonoBehaviour
 
         // Log the deviation from the lane center
         valArray[8] = deviationFromCenter;   // LaneDeviation
-        valArray[23] = closestTrackPoint.x;   // LaneDeviation
-        valArray[24] = closestTrackPoint.y;   // LaneDeviation
+        valArray[9] = closestTrackPoint.x;   // LaneDeviation
+        valArray[10] = closestTrackPoint.y;   // LaneDeviation
           
         //!!CHANGE WITH THE NUMBER OF LEAD VEHICLES
         string timestamp = System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff");
-        string logEntry = timestamp + " " + valArray[0] + " " + valArray[1] + " " + valArray[2] + " " + valArray[3] + " " + valArray[4] + " " + valArray[5] + " " + valArray[6] + " " + valArray[7] + " " + valArray[8] + " " + valArray[9] + " " + valArray[10]+ " " + valArray[11] + " " + valArray[12] + " " + valArray[13] + " " + valArray[14] + " " + valArray[15] + " " + valArray[16] + " " + valArray[17] + " " + valArray[18] + " " + valArray[19] + " " + valArray[20] + " " + valArray[21] + " " + valArray[22]+ " " + valArray[23]+ " " + valArray[24];
+        string logEntry = timestamp + " " + valArray[0] + " " + valArray[1] + " " + valArray[2] + " " + valArray[3] + " " + valArray[4] + " " + valArray[5] + " " + valArray[6] + " " + valArray[7] + " " + valArray[8]; //+ " " + valArray[9] + " " + valArray[10]+ " " + valArray[11] + " " + valArray[12] + " " + valArray[13] + " " + valArray[14] + " " + valArray[15] + " " + valArray[16] + " " + valArray[17] + " " + valArray[18] + " " + valArray[19] + " " + valArray[20] + " " + valArray[21] + " " + valArray[22]+ " " + valArray[23]+ " " + valArray[24];
       
         File.AppendAllText(logFilePath, logEntry + Environment.NewLine);
         return toReturn;
