@@ -12,7 +12,7 @@ public class UDPButton : MonoBehaviour
     private bool automationEnabled = false;  // State to control automation
     private float[] udpValue = new float[1]{0.0f};  // Initial float value to be sent via UDP
     private UdpClient udpClient;  // UDP client for sending data
-    private const int sendFrequency = 10000;  // Send data at 200 Hz
+    private const int sendFrequency = 200;  // Send data at 200 Hz
  
     void Start()
     {

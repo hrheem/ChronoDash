@@ -28,7 +28,7 @@ public static class FileManagement
         int second = DateTime.Now.Second;
         //string pid = PlayerPrefs.GetString("PID");
         //string cond = PlayerPrefs.GetString("Condition");
-        FILENAME = (pid + "-" + month + "-" + day + "-" + year + "-" + hour + "-" + minute + "-" + second + "-");
+        FILENAME = ("Data_NDRT_" + pid + "-" + month + "-" + day + "-" + year + "-" + hour + "-" + minute + "-" + second + "-");
         FILENAME += cond;
         FILENAME = Path.Combine(Application.persistentDataPath, FILENAME);
         FILENAME += ".txt";
